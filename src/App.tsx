@@ -326,11 +326,11 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 p-2 sm:p-4">
       <div className="w-full max-w-[2200px] mx-auto bg-white rounded-xl shadow-lg p-2 sm:p-6 relative">
-  <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-          <h1 className="text-2xl font-bold text-gray-800">Comparador</h1>
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           </div>
           {/* Botón de intercambio */}
           <div className="flex gap-4">
+          <h1 className="text-2xl font-bold text-gray-800">Comparador</h1>
             <button
               onClick={swapDocuments}
               className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm"
@@ -467,7 +467,7 @@ function App() {
           </div>
         </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 h-[calc(100vh-200px)] min-h-[500px] max-h-[1000px]">
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 h-[calc(100vh-200px)] min-h-[500px] max-h-[1100px]">
             <div
             onDragOver={!leftPDF ? (e) => e.preventDefault() : undefined}
             onDrop={!leftPDF ? (e) => handleDrop(e, 'left') : undefined}
