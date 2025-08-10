@@ -208,7 +208,7 @@ function App() {
     }
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement | HTMLLabelElement>, side: 'left' | 'right') => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, side: 'left' | 'right') => {
     if ((side === 'left' && leftPDF) || (side === 'right' && rightPDF)) return;
     e.preventDefault();
     const file = e.dataTransfer.files[0];
