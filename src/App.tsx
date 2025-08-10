@@ -208,7 +208,7 @@ function App() {
     }
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, side: 'left' | 'right') => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement | HTMLLabelElement>, side: 'left' | 'right') => {
     if ((side === 'left' && leftPDF) || (side === 'right' && rightPDF)) return;
     e.preventDefault();
     const file = e.dataTransfer.files[0];
@@ -664,29 +664,29 @@ function App() {
               ) : (
                 <table className="w-full border">
                   <thead>
-                    <tr className="bg-gray-100">
-                      <th className="border px-2 py-1">Etiqueta</th>
-                      <th className="border px-2 py-1">{leftPDF ? getFileName(leftPDF) : "PDF 1"}</th>
-                      <th className="border px-2 py-1">{rightPDF ? getFileName(rightPDF) : "PDF 2"}</th>
-                      <th className="border px-2 py-1"></th>
-                    </tr>
+                  <tr className="bg-gray-100">
+                    <th className="border px-2 py-1">Etiqueta</th>
+                    <th className="border px-2 py-1 text-left">{leftPDF ? getFileName(leftPDF) : "PDF 1"}</th>
+                    <th className="border px-2 py-1 text-left">{rightPDF ? getFileName(rightPDF) : "PDF 2"}</th>
+                    <th className="border px-2 py-1"></th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {summary.map((item) => (
-                      <tr key={item.label}>
-                        <td className="border px-2 py-1">{item.label}</td>
-                        <td className="border px-2 py-1">{item.left || '-'}</td>
-                        <td className="border px-2 py-1">{item.right || '-'}</td>
-                        <td className="border px-2 py-1">
-                          <button
-                            onClick={() => removeFromSummary(item.label)}
-                            className="text-red-500 hover:text-red-700"
-                          >
-                            <XCircle className="w-4 h-4" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
+                  {summary.map((item) => (
+                    <tr key={item.label}>
+                    <td className="border px-2 py-1">{item.label}</td>
+                    <td className="border px-2 py-1">{item.left || '-'}</td>
+                    <td className="border px-2 py-1">{item.right || '-'}</td>
+                    <td className="border px-2 py-1">
+                      <button
+                      onClick={() => removeFromSummary(item.label)}
+                      className="text-red-500 hover:text-red-700"
+                      >
+                      <XCircle className="w-4 h-4" />
+                      </button>
+                    </td>
+                    </tr>
+                  ))}
                   </tbody>
                 </table>
               )}
