@@ -117,6 +117,12 @@ function App() {
     setRightPDF(leftPDF);
     setLeftInputKey(Date.now());
     setRightInputKey(Date.now());
+      // Intercambiar datos etiquetados
+    setSummary(prevSummary => prevSummary.map(item => ({
+      label: item.label,
+      left: item.right,
+      right: item.left
+    })));
   };
 
   // Función para eliminar un documento
