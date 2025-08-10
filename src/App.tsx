@@ -473,7 +473,7 @@ function App() {
           </div>
         </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 h-[calc(100vh-200px)] min-h-[500px] max-h-[1100px]">
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 h-[calc(100vh-200px)] min-h-[500px] max-h-[1500px]">
             <div
             onDragOver={!leftPDF ? (e) => e.preventDefault() : undefined}
             onDrop={!leftPDF ? (e) => handleDrop(e, 'left') : undefined}
