@@ -711,7 +711,7 @@ function App() {
                 onChange={(e) => setLabelSearch(e.target.value)}
                 autoFocus
               />
-              <ul>
+              <ul className="max-h-[200px] overflow-y-auto">
                 {filteredLabels.map((label) => (
                   <li
                     key={label}
