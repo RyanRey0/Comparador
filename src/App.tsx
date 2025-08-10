@@ -328,44 +328,6 @@ function App() {
       <div className="w-full max-w-[2200px] mx-auto bg-white rounded-xl shadow-lg p-2 sm:p-6 relative">
   <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
           <h1 className="text-2xl font-bold text-gray-800">Comparador</h1>
-          {(!leftPDF || !rightPDF) && (
-            <div className="w-full max-w-xl">
-              <input
-                type="file"
-                accept=".pdf"
-                multiple
-                onChange={(e) => handleBothFilesChange(Array.from(e.target.files || []))}
-                className="hidden"
-                id="pdf-upload"
-              />
-              <label
-                htmlFor="pdf-upload"
-                className="flex flex-col items-center justify-center w-full border-2 border-dashed border-blue-300 rounded-lg p-4 cursor-pointer bg-blue-50 hover:bg-blue-100"
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  handleBothFilesChange(Array.from(e.dataTransfer.files));
-                }}
-              >
-                <Upload className="w-10 h-10 text-blue-400 mb-2" />
-                <p className="text-sm text-blue-700 font-medium text-center">
-                  {!leftPDF && !rightPDF
-                    ? "Arrastra o selecciona ambos documentos"
-                    : !rightPDF
-                    ? "Arrastra o selecciona el segundo PDF"
-                    : "Arrastra o selecciona el primer PDF"}
-                </p>
-                <div className="flex gap-4 mt-2">
-                  <span className="text-xs text-gray-500">
-                    {leftPDF ? getFileName(leftPDF) : "Documento 1 vacío"}
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    {rightPDF ? getFileName(rightPDF) : "Documento 2 vacío"}
-                  </span>
-                </div>
-              </label>
-            </div>
-          )}
           </div>
           {/* Botón de intercambio */}
           <div className="flex gap-4">
@@ -505,34 +467,51 @@ function App() {
           </div>
         </div>
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 h-[600px] sm:h-[800px]">
-          <div
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 h-[calc(100vh-200px)] min-h-[500px] max-h-[1000px]">
+            <div
             onDragOver={!leftPDF ? (e) => e.preventDefault() : undefined}
             onDrop={!leftPDF ? (e) => handleDrop(e, 'left') : undefined}
             onContextMenu={enableEtiquetar ? handleLeftContextMenu : undefined}
             className="relative"
-          >
-            <input
-              key={leftInputKey}
-              type="file"
-              accept=".pdf"
-              onChange={(e) => handleFileChange(e, 'left')}
-              className="hidden"
-              id="left-pdf"
-              disabled={!!leftPDF}
-            />
+            >
             {!leftPDF ? (
-              <label htmlFor="left-pdf" className="absolute inset-0 cursor-pointer z-10">
+              <div className="w-full h-full">
+              <input
+                key={leftInputKey}
+                type="file"
+                accept=".pdf"
+                onChange={(e) => handleFileChange(e, 'left')}
+                className="hidden"
+                id="left-pdf"
+              />
+              <label
+                htmlFor="left-pdf"
+                className="absolute inset-0"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => handleDrop(e, 'left')}
+              >
                 <PDFViewer
-                  file={leftPDF}
-                  scale={leftScale}
-                  containerRef={leftContainerRef}
-                  onScroll={onLeftScroll}
-                  onContextMenu={enableEtiquetar ? handleLeftContextMenu : undefined}
+                file={null}
+                scale={leftScale}
+                containerRef={leftContainerRef}
+                onScroll={onLeftScroll}
+                onContextMenu={enableEtiquetar ? handleLeftContextMenu : undefined}
                 />
               </label>
+              </div>
             ) : (
-              <div className="absolute inset-0 z-0">
+              <>
+              <input
+                key={leftInputKey}
+                type="file"
+                accept=".pdf"
+                onChange={(e) => handleFileChange(e, 'left')}
+                className="hidden"
+                id="left-pdf"
+                disabled={!!leftPDF}
+              />
+              {leftPDF ? (
+                <label htmlFor="left-pdf" className="absolute inset-0 cursor-pointer z-10">
                 <PDFViewer
                   file={leftPDF}
                   scale={leftScale}
@@ -540,9 +519,21 @@ function App() {
                   onScroll={onLeftScroll}
                   onContextMenu={enableEtiquetar ? handleLeftContextMenu : undefined}
                 />
-              </div>
+                </label>
+              ) : (
+                <div className="absolute inset-0 z-0">
+                <PDFViewer
+                  file={leftPDF}
+                  scale={leftScale}
+                  containerRef={leftContainerRef}
+                  onScroll={onLeftScroll}
+                  onContextMenu={enableEtiquetar ? handleLeftContextMenu : undefined}
+                />
+                </div>
+              )}
+              </>
             )}
-          </div>
+            </div>
 
           <div
             onDragOver={!rightPDF ? (e) => e.preventDefault() : undefined}
@@ -582,6 +573,39 @@ function App() {
             )}
           </div>
         </div>
+
+        {/* Panel central para cargar archivos cuando no hay ninguno cargado */}
+        {!leftPDF && !rightPDF && (
+          <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
+            <div className="w-full max-w-xl p-6">
+              <input
+                type="file"
+                accept=".pdf"
+                multiple
+                onChange={(e) => handleBothFilesChange(Array.from(e.target.files || []))}
+                className="hidden"
+                id="pdf-upload-central"
+              />
+              <label
+                htmlFor="pdf-upload-central"
+                className="flex flex-col items-center justify-center w-full border-2 border-dashed border-blue-300 rounded-lg p-8 cursor-pointer bg-blue-50 hover:bg-blue-100"
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  handleBothFilesChange(Array.from(e.dataTransfer.files));
+                }}
+              >
+                <Upload className="w-16 h-16 text-blue-400 mb-4" />
+                <p className="text-lg text-blue-700 font-medium text-center mb-2">
+                  Arrastra o selecciona los Documentos a comparar
+                </p>
+                <p className="text-sm text-gray-500">
+                  Puedes seleccionar uno o dos archivos a la vez
+                </p>
+              </label>
+            </div>
+          </div>
+        )}
 
         {showEtiquetasModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
